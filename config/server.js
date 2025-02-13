@@ -33,34 +33,55 @@ wss.on('connection', async (ws) => {
     // Evento disparado quando o servidor recebe uma mensagem do cliente.
     ws.on('message', async (message) => {
         try {
-            // Converte a mensagem recebida (em formato JSON) para um objeto JavaScript.
-            const { message: userMessage } = JSON.parse(message);
-
-            // Faz uma requisição POST para a API do OpenRouter AI.
+            console.log('Mensagem recebida:', message); // Log da mensagem recebida
+    
+            // Tenta fazer o parsing da mensagem
+            let parsedMessage;
+            try {
+                parsedMessage = JSON.parse(message);
+            } catch (parseError) {
+                console.error('Erro ao fazer parsing da mensagem:', parseError);
+                // ws.send('Erro: Mensagem inválida. Envie um JSON válido.');
+                return;
+            }
+    
+            // Verifica se a propriedade "messages" existe e é um array
+            if (!parsedMessage.messages || !Array.isArray(parsedMessage.messages)) {
+                console.error('Propriedade "messages" ausente ou inválida:', parsedMessage);
+                // ws.send('Erro: A propriedade "messages" é obrigatória e deve ser um array.');
+                return;
+            }
+    
+            console.log('Histórico de mensagens enviado:', parsedMessage.messages); // Log do histórico
+    
+            // Faz uma requisição POST para a API do OpenRouter AI
             const response = await axios.post(
-                'https://openrouter.ai/api/v1/chat/completions', // Endpoint da API.
+                'https://openrouter.ai/api/v1/chat/completions',
                 {
-                    model: 'deepseek/deepseek-r1:free', // Modelo de IA a ser usado.
-                    messages: [{ role: 'user', content: userMessage }] // Mensagem do usuário.
+                    model: 'deepseek/deepseek-r1-distill-llama-70b:free',
+                    messages: parsedMessage.messages // Envia o histórico de mensagens
                 },
                 {
                     headers: {
-                        'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON.
-                        'Authorization': 'Bearer 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' // Token de autenticação.
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer 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'
                     }
                 }
             );
-
-            // Verifica se a resposta da API não contém erros.
+    
+            console.log('Resposta da API:', response.data); // Log da resposta da API
+    
+            // Verifica se a resposta da API não contém erros
             if (!response.data.error) {
-                // Extrai a resposta da IA.
+                // Extrai a resposta da IA
                 const aiResponse = response.data.choices[0].message.content;
-                // Envia a resposta da IA de volta para o cliente.
+                // Envia a resposta da IA de volta para o cliente
                 ws.send(aiResponse);
             }
+    
         } catch (error) {
-            // Loga qualquer erro que ocorrer durante o processamento da mensagem.
             console.error('Erro ao processar mensagem:', error);
+            // ws.send('Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.');
         }
     });
 

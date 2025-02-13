@@ -13,7 +13,11 @@ let nameCourse = document.querySelector("#mini-chat").getAttribute('data-nameCou
 let descriptionCourse = document.querySelector("#mini-chat").getAttribute('data-summary');
 
 // Prompt inicial que será enviado com cada mensagem do usuário
-const promptInit = `Prompt: Em portugues(PT-BR): Você é um assistente virtual especializado em ajudar alunos com dúvidas sobre a matéria do curso, voce nao pode dar resposta de questões, o certo é explicar como a questao o problema pode talvez ser resolvido. Seu objetivo é fornecer explicações claras, exemplos práticos e orientações úteis para ajudar os alunos a entenderem melhor os conceitos abordados no curso. Curso: ${nameCourse}, decrição do curso: ${descriptionCourse}`;
+const promptInit = `Prompt: Em portugues(PT-BR): Você é um assistente virtual especializado em ajudar alunos com dúvidas sobre a matéria do curso, voce nao pode dar resposta de questões, o certo é explicar como a questao o problema pode talvez ser resolvido. Seu objetivo é fornecer explicações claras, exemplos práticos e orientações úteis para ajudar os alunos a entenderem melhor os conceitos abordados no curso. Curso: ${nameCourse}, decrição do curso: ${descriptionCourse}, e responda o aluno(a), nunca se refere-se a outra pessoa, nunca fale algo tipo:Okay, o aluno precisa de ajuda com a matéria de Biologia. Primeiro, ele enviou uma mensagem dizendo "preciso saber sobre a materia". Parece que ele está começando ou está um pouco perdido em relação ao curso e etc..., responda ele diretamente, nao saia do padrão e lembrando sempre responda em PORTUGUES!!. `;
+
+let messageHistory = [
+    { role: 'system', content: promptInit } // Adiciona o prompt inicial como mensagem do sistema
+];
 
 
 function connectWebSocket() {
@@ -54,6 +58,10 @@ function connectWebSocket() {
     ws.onmessage = (event) => {
         // Processa mensagem recebida do servidor
         loading.style.display = 'none';
+
+         // Adiciona a resposta da IA ao histórico de mensagens
+        messageHistory.push({ role: 'assistant', content: event.data });
+
         messagesContainer.innerHTML += `<p style="text-align: justify; align-self: flex-end;">
             <strong style="text-align: end;">IA:</strong> ${event.data}</p>`;
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -89,12 +97,15 @@ function connectWebSocket() {
                 messagesContainer.innerHTML += `<p style="align-self: flex-start;">
                     <strong style="color:black;">Você:</strong>${message}</p>`;
 
+                // Adiciona a mensagem do usuário ao histórico
+                messageHistory.push({ role: 'user', content: message });
+
                 loading.style.display = 'block';
                 confirmMessage = false;
 
                 // Envia mensagem para o servidor com o prompt inicial
                 ws.send(JSON.stringify({
-                    message: promptInit + "  Menssagem do aluno:" + message
+                    messages: messageHistory
                 }));
             }
         }

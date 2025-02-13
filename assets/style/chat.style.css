@@ -144,3 +144,60 @@
 #chat-messages::-webkit-scrollbar-thumb:hover {
     background: #357abd;
 }
+
+/* Estilos para telas menores (celulares) */
+@media (max-width: 768px) {
+    /* Ajustar o botão de abrir o chat */
+    #open-chat {
+        bottom: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    /* Ajustar o mini-chat */
+    #mini-chat {
+        width: 100%; /* Ocupa toda a largura da tela */
+        bottom: 0;
+        left: 0;
+        border-radius: 0; /* Remove bordas arredondadas */
+        height: 100vh; /* Ocupa toda a altura da tela */
+        max-height: 100vh; /* Limita a altura máxima */
+    }
+
+    /* Ajustar a área de mensagens */
+    #chat-messages {
+        height: calc(100vh - 120px); /* Ajusta a altura para caber o input e o botão */
+        padding: 10px;
+    }
+
+    /* Ajustar o tamanho das mensagens */
+    #chat-messages p {
+        margin-top: 30px;
+        width: 90%; /* Aumenta a largura das mensagens */
+        font-size: 0.9rem; /* Reduz o tamanho da fonte */
+    }
+
+    /* Ajustar o container do input */
+    #user-input-container {
+        padding: 8px;
+    }
+
+    /* Ajustar o campo de input */
+    #user-input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    /* Ajustar o botão de enviar */
+    #send-button img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Ajustar o GIF de carregamento */
+    #loading img {
+        width: 30px;
+        height: 30px;
+    }
+}
