@@ -1,0 +1,146 @@
+/* Estilo do botão para abrir o chat */
+
+#open-chat {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+#open-chat:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+}
+
+/* Estilo do mini-chat */
+#mini-chat {
+    display: none;
+    width: 400px;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    background-color: white;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+    z-index: 1000;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Área de mensagens */
+#chat-messages {
+    display: flex;
+    flex-direction: column;
+    
+    height: 350px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#chat-messages p {
+    margin: 12px 0; /* Aumentei a margem vertical */
+    line-height: 1.5; /* Aumentei o espaçamento entre as linhas */
+    background-color: #f1f1f1;
+    padding: 12px; /* Aumentei o padding interno */
+    border-radius: 8px;
+    width: 85%;
+     /* Limita a largura máxima da mensagem */
+    word-wrap: break-word; /* Quebra palavras longas */
+    font-size: 1rem; /
+}
+
+#chat-messages p strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #4a90e2;
+}
+
+/* Área de input e botão de enviar */
+#user-input-container {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    background-color: white;
+    padding: 10px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    font-size: 1rem;
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#user-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+#send-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#send-button img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+#send-button:hover img {
+    transform: scale(1.1);
+}
+
+/* Estilo do GIF de carregamento */
+#loading {
+    display: none;
+    text-align: right;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+#loading img {
+    margin: 10px 0;
+    line-height: 1.4;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #4a90e2;
+    border-radius: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #357abd;
+}
