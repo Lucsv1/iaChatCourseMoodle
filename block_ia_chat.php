@@ -37,7 +37,7 @@ class block_ia_chat extends block_base {
      */
     public function get_content() {
         // Acesso às variáveis globais do Moodle.
-        global $PAGE, $COURSE, $DB;
+        global $PAGE, $COURSE, $DB, $USER;
 
         // Se o conteúdo já foi gerado, retorna o conteúdo existente.
         if ($this->content !== null) {

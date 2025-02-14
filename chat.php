@@ -1,6 +1,7 @@
 <?php
 // Inclui o arquivo de configuração do Moodle (comentado para evitar erros durante o desenvolvimento).
-// require_once(__DIR__ . '/../../../config.php');
+require_once('/var/www/sites/lucas.eduead.com.br/html/ead/config.php');
+require_login();
 
 // Exibe o cabeçalho padrão do Moodle (comentado para evitar erros durante o desenvolvimento).
 // echo $OUTPUT->header();
@@ -26,7 +27,8 @@ $datas = $DB->get_records_sql($sql);
     <button id="open-chat">Abrir Chat</button>
 
     <!-- Div que contém o mini-chat, com atributos personalizados para armazenar informações do curso. -->
-    <div id="mini-chat" data-nameCourse="<?= $data->fullname; ?>" data-summary="<?= $data->summary; ?>">
+    <div id="mini-chat" data-idCourse="<?= $data->id ?>" data-nameCourse="<?= $data->fullname; ?>" data-summary="<?= $data->summary; ?>" data-nameUser="<?= $USER->firstname ;?>">
+    <button id="clean-chat">Limpar</button>
         <!-- Div para exibir as mensagens do chat. -->
         <div id="chat-messages"></div>
 
